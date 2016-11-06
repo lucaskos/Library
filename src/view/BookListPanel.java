@@ -197,12 +197,14 @@ public class BookListPanel extends JPanel {
 					/*
 					 * Taking each column except the isbn columns
 					 */
+				} else if (column == 4 ) {
+					System.out.println("test");
 				} else {
 					value = JOptionPane.showInputDialog(null, "Enter " + tableModel.getColumnName(column));
 					if (value != null) {
 						tableModel.setValueAt(value, row, column);
 					}
-				}
+				} 
 
 				tableModel.fireTableCellUpdated(row, column);
 			}

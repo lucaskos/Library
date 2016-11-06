@@ -37,7 +37,6 @@ public class TableModel extends AbstractTableModel {
 	}
 	
 	public void setValueAt(String value, int rowIndex, int columnIndex) {
-		System.out.println(value);
 		switch (columnIndex) {
 		case 0:
 			break;

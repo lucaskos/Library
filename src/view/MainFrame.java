@@ -1,40 +1,17 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.PopupMenu;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.Border;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableModel;
-
 import controller.Controller;
 import listeners.MenuListener;
 
@@ -61,9 +38,12 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLayout(new BorderLayout());
 		getContentPane();
+		/*
+		 * dispose() closes window and releases all the resorces uses by it.
+		 * System.gc() runs garbage collector.
+		 */
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				System.out.println("Window closing");
 				dispose();
 				System.gc();
 			}
@@ -72,9 +52,13 @@ public class MainFrame extends JFrame {
 		controller = new Controller();
 		prefsDialog = new PrefsDialog();
 		toolBar = new ToolBar();
+		bookListPanel = new BookListPanel(controller);
+		descriptionPanel = new BookDescriptionPanel();
+		menuBar = new MenuBar();
 
 		/*
-		 * Setting preferences for database (default in mysql). That includes username, password and port number.
+		 * Setting preferences for database (default in mysql). That includes
+		 * username, password and port number.
 		 */
 		myPrefs = Preferences.userRoot().node("library");
 
@@ -82,14 +66,12 @@ public class MainFrame extends JFrame {
 		String password = myPrefs.get("password", "");
 		Integer port = myPrefs.getInt("port", 3306);
 		prefsDialog.setDefaults(username, password, port);
-		bookListPanel = new BookListPanel(controller);
-		descriptionPanel = new BookDescriptionPanel();
-		menuBar = new MenuBar();
+
 		JPanel tempPanel = new JPanel();
 		tempPanel.setLayout(new BorderLayout());
-		tempPanel.add(menuBar, BorderLayout.PAGE_START);
-		tempPanel.add(toolBar, BorderLayout.AFTER_LAST_LINE);
-		add(toolBar, BorderLayout.NORTH);
+		tempPanel.add(menuBar, BorderLayout.NORTH);
+		tempPanel.add(toolBar, BorderLayout.CENTER);
+		add(tempPanel, BorderLayout.NORTH);
 		add(bookListPanel, BorderLayout.WEST);
 		add(descriptionPanel, BorderLayout.CENTER);
 		add(new JLabel(booksNumber), BorderLayout.SOUTH);
