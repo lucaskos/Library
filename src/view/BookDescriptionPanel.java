@@ -24,7 +24,7 @@ public class BookDescriptionPanel extends JPanel {
 
 	private JComponent titleLabel, authorLabel, isbnLabel, genreLabel;
 	private JTextField titleField, authorField, isbnField;
-	private JComboBox genresBox;
+	private JComboBox<Object> genresBox;
 	private JButton addBtn, clearBtn;
 	private JSeparator separator;
 
