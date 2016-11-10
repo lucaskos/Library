@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -85,6 +86,11 @@ public class Controller {
 
 	public void removeBook(int index) {
 		db.removeBook(index);
+		
+	}
+
+	public void deleteRowsFromDb(ArrayList<String> removedRows) throws SQLException {
+		db.deleteRowsFromDb(removedRows);
 		
 	}
 

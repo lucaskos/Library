@@ -33,10 +33,12 @@ public class BookListPanel extends JPanel {
 	private BookTableListener bookTableListener;
 	private JPopupMenu popup;
 	private TableModel tableModel;
+	private ArrayList<String> removedItems = new ArrayList<String>();
 	int row;
 	int column;
+	//String value has to be empty in order to work. If set as null changed values in JOptionPane boxes won't be changed.
 	String value = "";
-
+	
 	public BookListPanel(Controller controller) {
 		tableModel = new TableModel(controller);
 		popup = new JPopupMenu();
@@ -63,7 +65,8 @@ public class BookListPanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				row = table.rowAtPoint(e.getPoint());
 				column = table.columnAtPoint(e.getPoint());
-				System.out.println(row + " : column : " + column);
+				//get the row and column clicked by user
+				//System.out.println("row: " + row + " : column : " + column);
 				table.getSelectionModel().setSelectionInterval(row, row);
 				if (e.getButton() == MouseEvent.BUTTON3) {
 					if (column == 0) {
@@ -76,16 +79,28 @@ public class BookListPanel extends JPanel {
 				}
 			}
 		});
-
+		
 		removeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
+				
+				/*
+				 * Setting up remove option for table.
+				 * 
+				 */
 				if (bookTableListener != null) {
+					
+					removedItems.add(tableModel.getValueAt(row, 0).toString());
+					for(String items : removedItems) {
+						//System.out.println(items);
+					} 
+					bookTableListener.deletedRows(removedItems);
 					bookTableListener.rowDeleted(row);
 					tableModel.fireTableRowsDeleted(row, row);
 				}
 			}
 		});
+		
 
 		/*
 		 * Implement editable single cells inside the table. Call for table.fire

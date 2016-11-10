@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame {
 	private String booksNumber;
 	int row, column;
 	private Preferences myPrefs;
+	private ArrayList<String> removedRows;
 
 	public MainFrame() {
 		setTitle("Book Catalogue");
@@ -87,6 +89,9 @@ public class MainFrame extends JFrame {
 			public void updateHandler() {
 				connect();
 				try {
+					if(removedRows!=null) {
+						controller.deleteRowsFromDb(removedRows);
+					}
 					controller.save();
 				} catch (SQLException e) {
 					JOptionPane.showMessageDialog(MainFrame.this, "Cannot update the database.",
@@ -126,8 +131,14 @@ public class MainFrame extends JFrame {
 		bookListPanel.setBookTableListener(new BookTableListener() {
 			public void rowDeleted(int row) {
 				controller.removeBook(row);
+
 				// System.out.println(controller.getBook(row));
 
+			}
+
+			@Override
+			public void deletedRows(ArrayList<String> removedItems) {
+				removedRows = removedItems;
 			}
 		});
 		/*
