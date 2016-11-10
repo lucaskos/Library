@@ -83,10 +83,10 @@ public class BookListPanel extends JPanel {
 		removeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
-				
+				row = (int) tableModel.getValueAt(row, 0);
+				System.err.println(row);
 				/*
 				 * Setting up remove option for table.
-				 * 
 				 */
 				if (bookTableListener != null) {
 					
@@ -115,6 +115,7 @@ public class BookListPanel extends JPanel {
 				 * Check if column is isbn because it should take only numbers.
 				 */
 				if (column == 3) {
+					//The beggining of Document
 					Document doc = new PlainDocument() {
 						@Override
 						public void insertString(int offs, String str, AttributeSet attr) throws BadLocationException {
@@ -131,6 +132,7 @@ public class BookListPanel extends JPanel {
 							super.replace(offs, len, newstr, attr);
 						}
 					};
+					//The end of Document
 					JTextField isbnField = new JTextField();
 					isbnField.setDocument(doc);
 					isbnField.setToolTipText("Value no longer than 13 characters");

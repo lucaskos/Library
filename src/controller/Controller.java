@@ -86,12 +86,14 @@ public class Controller {
 
 	public void removeBook(int index) {
 		db.removeBook(index);
-		
 	}
 
 	public void deleteRowsFromDb(ArrayList<String> removedRows) throws SQLException {
 		db.deleteRowsFromDb(removedRows);
-		
+	}
+	
+	public void removeBookFromDatabase(int ids) throws SQLException{
+		db.deleteCellsFromDb(ids);
 	}
 
 }

@@ -90,7 +90,12 @@ public class MainFrame extends JFrame {
 				connect();
 				try {
 					if(removedRows!=null) {
-						controller.deleteRowsFromDb(removedRows);
+						int temp = 0;
+						//controller.deleteRowsFromDb(removedRows);
+						for(String rows : removedRows) {
+							temp = Integer.parseInt(rows);
+						}
+						controller.removeBookFromDatabase(temp);
 					}
 					controller.save();
 				} catch (SQLException e) {

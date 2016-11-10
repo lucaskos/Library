@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -112,12 +113,6 @@ public class Database {
 		}
 	}
 
-	public void remove() throws SQLException {
-		String removeSql = "DELETE from book where id=?";
-
-		PreparedStatement removeStatement = con.prepareStatement(removeSql);
-	}
-
 	public void save() throws SQLException {
 
 		String checkSql = "SELECT count(*) as count from books where id=?";
@@ -169,8 +164,11 @@ public class Database {
 				updateStatement.setString(col++, String.valueOf(isbn));
 				updateStatement.setString(col++, genre);
 				updateStatement.setInt(col++, id);
-				System.out.println("*** Updating book with values " + id + " : " + title + " : " + author + " : " + isbn
-						+ " : " + genre);
+				
+				/*
+				 * Shows all the books. All the books has been updated.
+				 */
+				//System.out.println("*** Updating book with values " + id + " : " + title + " : " + author + " : " + isbn + " : " + genre);
 
 				updateStatement.executeUpdate();
 				// System.out.println("Updating book with ID: " + id);
@@ -224,8 +222,51 @@ public class Database {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ArrayList<String> newRows = idRows;
-		ArrayList<String> ids = new ArrayList<>();
+		List<String> allBooksIdFromDb = getAllBooksIdFromDb();
+		
+		
+	//		ArrayList<String> newRows = idRows;
+		
+		
+//		/*
+//		 * Creating a list to compare two lists
+//		 * @newRows is list of ids that has been deleted from the booklistPanel
+//		 * @ids is the list of all the id values in the database, converted to String variable
+//		 */
+//		List<String> comparingList = new ArrayList<String>();
+//		for (int i = 0; i < ids.size(); i++) {
+//			if(newRows.contains(ids.get(i))){
+//				comparingList.add(ids.get(i));
+//			}
+//		}
+//		
+//		try {
+//			String deleteSql = "delete from books where id=?";
+//			PreparedStatement deleteStatement = con.prepareStatement(deleteSql);
+//			for(int i = 0; i < comparingList.size(); i++) {
+//				deleteStatement.setInt(1, Integer.parseInt(comparingList.get(i)));
+//				int rowDeleted = deleteStatement.executeUpdate();
+//				//Debuggin if row has been deleted
+//				if(rowDeleted > 0) {
+//					System.out.println("Deletion succesful");
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}		
+		System.out.print("Booklist : \n" + bookList);
+		
+	}
+	/*
+	 * Returns a list of all the ids from database.
+	 */
+	private List<String> getAllBooksIdFromDb() throws SQLException {
+		try {
+			connect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		List<String> ids = new ArrayList<>();
 		String selectIdSql = "select id from books order by id";
 		Statement selectIdStatement = con.createStatement();
 		ResultSet results = selectIdStatement.executeQuery(selectIdSql);
@@ -235,32 +276,23 @@ public class Database {
 				ids.add(id);
 			}
 		}
-		/*
-		 * Creating a list to compare two arrays
-		 * @newRows is list of ids that has been deleted from the booklistPanel
-		 * @ids is the list of all the id values in the database, converted to String variable
-		 */
-		List<String> comparingList = new ArrayList<String>();
-		for (int i = 0; i < ids.size(); i++) {
-			if(newRows.contains(ids.get(i))){
-				comparingList.add(ids.get(i));
-			}
-		}
-		
+		return ids;
+	}
+
+	public void deleteCellsFromDb(int ids) throws SQLException {
 		try {
-			String deleteSql = "delete from books where id=?";
-			PreparedStatement deleteStatement = con.prepareStatement(deleteSql);
-			for(int i = 0; i < comparingList.size(); i++) {
-				deleteStatement.setInt(1, Integer.parseInt(comparingList.get(i)));
-				int rowDeleted = deleteStatement.executeUpdate();
-				//Debuggin if row has been deleted
-				if(rowDeleted > 0) {
-					System.out.println("Deletion succesful");
-				}
-			}
+			connect();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
+		List<String> allBooksIdFromDb = getAllBooksIdFromDb();
+		for(String id : allBooksIdFromDb) {
+			System.out.println("db: " + id);
+		}
+		
+		if(allBooksIdFromDb.contains(ids)){
+			System.err.println();
+		}
 	}
 
 }
