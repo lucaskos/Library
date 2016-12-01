@@ -92,8 +92,9 @@ public class Controller {
 		db.deleteRowsFromDb(removedRows);
 	}
 	
-	public void removeBookFromDatabase(int ids) throws SQLException{
-		db.deleteCellsFromDb(ids);
+	public boolean removeBookFromDatabase(int ids) throws SQLException{
+		System.err.println(ids);
+		return db.deleteCellsFromDb(ids);
 	}
 
 }

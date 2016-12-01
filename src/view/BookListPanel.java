@@ -66,7 +66,7 @@ public class BookListPanel extends JPanel {
 				row = table.rowAtPoint(e.getPoint());
 				column = table.columnAtPoint(e.getPoint());
 				//get the row and column clicked by user
-				//System.out.println("row: " + row + " : column : " + column);
+//				System.out.println("row: " + row + " : column : " + column);
 				table.getSelectionModel().setSelectionInterval(row, row);
 				if (e.getButton() == MouseEvent.BUTTON3) {
 					if (column == 0) {
@@ -79,17 +79,19 @@ public class BookListPanel extends JPanel {
 				}
 			}
 		});
-		
+/*		For some reason code : 
+		int row = table.getSelectedRow();
+		row = (int) tableModel.getValueAt(row, 0);
+		System.err.println(row);
+		gives an exception of IndexOutOfBoundaries*/
 		removeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
-				row = (int) tableModel.getValueAt(row, 0);
-				System.err.println(row);
+				
 				/*
 				 * Setting up remove option for table.
 				 */
 				if (bookTableListener != null) {
-					
 					removedItems.add(tableModel.getValueAt(row, 0).toString());
 					for(String items : removedItems) {
 						//System.out.println(items);

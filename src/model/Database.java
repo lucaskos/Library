@@ -164,11 +164,12 @@ public class Database {
 				updateStatement.setString(col++, String.valueOf(isbn));
 				updateStatement.setString(col++, genre);
 				updateStatement.setInt(col++, id);
-				
+
 				/*
 				 * Shows all the books. All the books has been updated.
 				 */
-				//System.out.println("*** Updating book with values " + id + " : " + title + " : " + author + " : " + isbn + " : " + genre);
+				// System.out.println("*** Updating book with values " + id + "
+				// : " + title + " : " + author + " : " + isbn + " : " + genre);
 
 				updateStatement.executeUpdate();
 				// System.out.println("Updating book with ID: " + id);
@@ -212,10 +213,12 @@ public class Database {
 	public void refresh() {
 
 	}
-/*
- * Delete the rows in database based on the arraylist @idRows of string with id of certain row
- * 
- */
+
+	/*
+	 * Delete the rows in database based on the arraylist @idRows of string with
+	 * id of certain row
+	 * 
+	 */
 	public void deleteRowsFromDb(ArrayList<String> idRows) throws SQLException {
 		try {
 			connect();
@@ -223,40 +226,41 @@ public class Database {
 			e.printStackTrace();
 		}
 		List<String> allBooksIdFromDb = getAllBooksIdFromDb();
-		
-		
-	//		ArrayList<String> newRows = idRows;
-		
-		
-//		/*
-//		 * Creating a list to compare two lists
-//		 * @newRows is list of ids that has been deleted from the booklistPanel
-//		 * @ids is the list of all the id values in the database, converted to String variable
-//		 */
-//		List<String> comparingList = new ArrayList<String>();
-//		for (int i = 0; i < ids.size(); i++) {
-//			if(newRows.contains(ids.get(i))){
-//				comparingList.add(ids.get(i));
-//			}
-//		}
-//		
-//		try {
-//			String deleteSql = "delete from books where id=?";
-//			PreparedStatement deleteStatement = con.prepareStatement(deleteSql);
-//			for(int i = 0; i < comparingList.size(); i++) {
-//				deleteStatement.setInt(1, Integer.parseInt(comparingList.get(i)));
-//				int rowDeleted = deleteStatement.executeUpdate();
-//				//Debuggin if row has been deleted
-//				if(rowDeleted > 0) {
-//					System.out.println("Deletion succesful");
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}		
+
+		// ArrayList<String> newRows = idRows;
+
+		// /*
+		// * Creating a list to compare two lists
+		// * @newRows is list of ids that has been deleted from the
+		// booklistPanel
+		// * @ids is the list of all the id values in the database, converted to
+		// String variable
+		// */
+		// List<String> comparingList = new ArrayList<String>();
+		// for (int i = 0; i < ids.size(); i++) {
+		// if(newRows.contains(ids.get(i))){
+		// comparingList.add(ids.get(i));
+		// }
+		// }
+		//
+		// try {
+		// String deleteSql = "delete from books where id=?";
+		// PreparedStatement deleteStatement = con.prepareStatement(deleteSql);
+		// for(int i = 0; i < comparingList.size(); i++) {
+		// deleteStatement.setInt(1, Integer.parseInt(comparingList.get(i)));
+		// int rowDeleted = deleteStatement.executeUpdate();
+		// //Debuggin if row has been deleted
+		// if(rowDeleted > 0) {
+		// System.out.println("Deletion succesful");
+		// }
+		// }
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		System.out.print("Booklist : \n" + bookList);
-		
+
 	}
+
 	/*
 	 * Returns a list of all the ids from database.
 	 */
@@ -279,20 +283,32 @@ public class Database {
 		return ids;
 	}
 
-	public void deleteCellsFromDb(int ids) throws SQLException {
+	public boolean deleteCellsFromDb(int ids) throws SQLException {
 		try {
 			connect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		List<String> allBooksIdFromDb = getAllBooksIdFromDb();
-		for(String id : allBooksIdFromDb) {
+		for (String id : allBooksIdFromDb) {
 			System.out.println("db: " + id);
 		}
-		
-		if(allBooksIdFromDb.contains(ids)){
-			System.err.println();
+
+		if (allBooksIdFromDb.contains(String.valueOf(ids))) {
+			try {
+				String deleteSql = "delete from books where id=?";
+				PreparedStatement deleteStatement = con.prepareStatement(deleteSql);
+				deleteStatement.setInt(1, ids);
+				int rowDeleted = deleteStatement.executeUpdate();
+				if (rowDeleted > 0) {
+					return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		return false;
+
 	}
 
 }

@@ -94,8 +94,12 @@ public class MainFrame extends JFrame {
 						//controller.deleteRowsFromDb(removedRows);
 						for(String rows : removedRows) {
 							temp = Integer.parseInt(rows);
+							boolean a = controller.removeBookFromDatabase(temp);
+							if(a=true) {
+								System.out.println("failed to delete records");
+							}
 						}
-						controller.removeBookFromDatabase(temp);
+						
 					}
 					controller.save();
 				} catch (SQLException e) {
