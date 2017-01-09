@@ -36,22 +36,29 @@ public class BookDescriptionPanel extends JPanel {
 	private JPanel panel;
 
 	private BookListener bookListener;
-
 	public BookDescriptionPanel() {
 		add(createGui(), BorderLayout.LINE_START);
-
+		
+		
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String title = titleField.getText();
 				String author = authorField.getText();
 				String isbn = isbnField.getText();
 				String genre = genresBox.getSelectedItem().toString();
-				
+				isbn = isbn.replaceAll("[^\\d.]", "");
 				if (checkIfEmpty(title, titleString) != false && checkIfEmpty(author, authorString) != false
 						&& checkIfEmpty(isbn, isbnString) != false && checkIfEmpty(genre, genreString) != false) {
-					bookListener.formEventHandler(title, author, Integer.parseInt(isbn), genre);
+					System.err.println(isbn);
+					bookListener.formEventHandler(title, author, stringTo(isbn), genre);
 				}
 
+			}
+			private Integer stringTo(String isbn) {
+				isbn.replaceAll("[^\\d.]", "");
+				Integer number = Integer.parseInt(isbn);
+				System.out.println(number);
+				return number;
 			}
 
 
