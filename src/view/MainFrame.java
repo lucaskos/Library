@@ -155,7 +155,7 @@ public class MainFrame extends JFrame {
 		 * object and adding it to the table.
 		 */
 		descriptionPanel.setBookActionListener(new BookListener() {
-			public void formEventHandler(String title, String author, int isbn, String genre) {
+			public void formEventHandler(String title, String author, long isbn, String genre) {
 				Boolean temp = controller.checkIfExists(title, isbn);
 				if (temp == true) {
 					controller.addBooks(title, author, isbn, genre);

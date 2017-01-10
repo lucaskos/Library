@@ -17,7 +17,7 @@ public class Controller {
 		return db.getBooks();
 	}
 
-	public void addBooks(String title, String author, int isbn, String genre) {
+	public void addBooks(String title, String author, long isbn, String genre) {
 		Book book = new Book(title, author, isbn, genre);
 		db.addBook(book);
 
@@ -52,10 +52,10 @@ public class Controller {
 		}
 	}
 
-	public Boolean checkIfExists(String title, int isbn) {
+	public Boolean checkIfExists(String title, long isbn) {
 		List<Book> tempList = getBooks();
 		String tempTitle = "";
-		int tempIsbn;
+		long tempIsbn;
 		for(int i = 0; i < tempList.size() ; i++) {
 			tempTitle = tempList.get(i).getTitle().toLowerCase();
 			tempIsbn = tempList.get(i).getIsbn();

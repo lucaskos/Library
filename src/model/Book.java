@@ -10,9 +10,9 @@ public class Book implements Serializable {
 	
 	private int id;
 	private String title, author, genre;
-	private int isbn; 
+	private long isbn; 
 
-	public Book(String title, String author, int isbn, String genre) {
+	public Book(String title, String author, long isbn, String genre) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -22,7 +22,7 @@ public class Book implements Serializable {
 		count++;
 	}
 
-	public Book(int id, String title, String author, int isbn, String genre) {
+	public Book(int id, String title, String author, long isbn, String genre) {
 		this(title, author, isbn, genre);
 		this.id = id;
 	}
@@ -59,11 +59,11 @@ public class Book implements Serializable {
 		this.title = title;
 	}
 
-	public int getIsbn() {
+	public long getIsbn() {
 		return isbn;
 	}
 
-	public void setIsbn(int isbn) {
+	public void setIsbn(long isbn) {
 		this.isbn = isbn;
 	}
 

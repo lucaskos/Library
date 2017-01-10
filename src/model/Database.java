@@ -14,10 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 public class Database {
 	List<Book> bookList = new LinkedList<Book>();
@@ -130,7 +128,7 @@ public class Database {
 			String title = book.getTitle();
 			String author = book.getAuthor();
 			String genre = book.getGenre();
-			int isbn = book.getIsbn();
+			long isbn = book.getIsbn();
 
 			checkStmt.setInt(1, id);
 
@@ -186,7 +184,6 @@ public class Database {
 		try {
 			connect();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String sql = "select id, title, author, isbn, genre from books order by id";

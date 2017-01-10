@@ -20,6 +20,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import isbnCheck.Isbn;
+import isbnCheck.NewIsbn;
+import isbnCheck.OldIsbn;
+
 public class BookDescriptionPanel extends JPanel {
 
 	private JComponent titleLabel, authorLabel, isbnLabel, genreLabel;
@@ -36,12 +40,13 @@ public class BookDescriptionPanel extends JPanel {
 	private JPanel panel;
 
 	private BookListener bookListener;
+
 	public BookDescriptionPanel() {
 		add(createGui(), BorderLayout.LINE_START);
-		
-		
+
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Boolean temp = false;
 				String title = titleField.getText();
 				String author = authorField.getText();
 				String isbn = isbnField.getText();
@@ -49,18 +54,23 @@ public class BookDescriptionPanel extends JPanel {
 				isbn = isbn.replaceAll("[^\\d.]", "");
 				if (checkIfEmpty(title, titleString) != false && checkIfEmpty(author, authorString) != false
 						&& checkIfEmpty(isbn, isbnString) != false && checkIfEmpty(genre, genreString) != false) {
-					System.err.println(isbn);
-					bookListener.formEventHandler(title, author, stringTo(isbn), genre);
+
+					Isbn isbnCheck;
+					if (isbn.length() == 10) {
+						isbnCheck = new Isbn(new OldIsbn());
+						temp = isbnCheck.executeStrategy(isbn);
+					} else if (isbn.length() == 13) {
+						isbnCheck = new Isbn(new NewIsbn());
+						temp = isbnCheck.executeStrategy(isbn);
+					}
+					if (temp != true) {
+						JOptionPane.showMessageDialog(new JFrame(), "Please provide correct ISBN.");
+					} else {
+						bookListener.formEventHandler(title, author, Long.parseLong(isbn), genre);
+					}
 				}
 
 			}
-			private Integer stringTo(String isbn) {
-				isbn.replaceAll("[^\\d.]", "");
-				Integer number = Integer.parseInt(isbn);
-				System.out.println(number);
-				return number;
-			}
-
 
 			private Boolean checkIfEmpty(String temp, String name) {
 				if (temp.isEmpty() || temp.equals("") || temp == "") {
@@ -98,30 +108,30 @@ public class BookDescriptionPanel extends JPanel {
 		authorField = new JTextField(15);
 		isbnField = new JTextField(15);
 		isbnField.setToolTipText("Must be 10 or 13 digits");
-		
+
 		separator = new JSeparator(SwingConstants.HORIZONTAL);
 
 		titleField.setText(titleString);
 		authorField.setText(authorString);
 		isbnField.setText("1");
-		
+
 		addBtn = new JButton("Add");
 		clearBtn = new JButton("Clear");
-		
-		//Setting up genres from enum WITHOUT !ALL!
-		//for JComboBox
+
+		// Setting up genres from enum WITHOUT !ALL!
+		// for JComboBox
 		ArrayList<String> temp = new ArrayList<>();
-		for(Genres value : Genres.values()) {
+		for (Genres value : Genres.values()) {
 			temp.add(value.toString().toLowerCase());
 		}
 		temp.remove(0);
-		
+
 		genresBox = new JComboBox<>(temp.toArray());
-		//end of setting up JComboBox 
-		
+		// end of setting up JComboBox
+
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gc = new GridBagConstraints();
-		
+
 		panel.setLayout(gbl);
 		gc.gridx = 0;
 		gc.gridy = 0;
@@ -176,10 +186,11 @@ public class BookDescriptionPanel extends JPanel {
 		gc.gridy++;
 		gbl.setConstraints(separator, gc);
 		panel.add(separator);
-		
+
 		// Button addition
 		gc.fill = gc.NONE;
-		gc.gridwidth = 0;;
+		gc.gridwidth = 0;
+		;
 		gc.insets = new Insets(10, 0, 0, 0);
 		gc.gridy++;
 		gc.gridx = 0;
@@ -189,14 +200,13 @@ public class BookDescriptionPanel extends JPanel {
 		gc.gridx++;
 		gbl.setConstraints(clearBtn, gc);
 		panel.add(clearBtn);
-		
+
 		gc.fill = gc.HORIZONTAL;
 		gc.insets = new Insets(10, 0, 0, 0);
 		gc.gridwidth = 2;
 		gc.gridx = 0;
 		gc.gridy++;
 		panel.add(new JSeparator(), gc);
-		
 
 		return panel;
 
