@@ -20,9 +20,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import isbnCheck.Isbn;
-import isbnCheck.NewIsbn;
-import isbnCheck.OldIsbn;
+import view.isbnCheck.Isbn;
+import view.isbnCheck.NewIsbn;
+import view.isbnCheck.OldIsbn;
 
 public class BookDescriptionPanel extends JPanel {
 

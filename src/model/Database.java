@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -208,7 +209,7 @@ public class Database {
 	}
 
 	public void refresh() {
-
+		
 	}
 
 	/*
@@ -306,6 +307,17 @@ public class Database {
 		}
 		return false;
 
+	}
+
+	public void exportFile(File file) throws IOException {
+		FileOutputStream fos = new FileOutputStream(file);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+		oos.writeObject(bookList);
+
+		oos.flush();
+		oos.close();
+		
 	}
 
 }

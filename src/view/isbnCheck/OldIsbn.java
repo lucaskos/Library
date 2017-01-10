@@ -1,4 +1,4 @@
-package isbnCheck;
+package view.isbnCheck;
 
 public class OldIsbn implements IsbnStrategy {
 	private int sum, d, stringLength;

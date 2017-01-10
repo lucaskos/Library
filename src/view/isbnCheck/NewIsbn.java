@@ -1,4 +1,4 @@
-package isbnCheck;
+package view.isbnCheck;
 
 public class NewIsbn implements IsbnStrategy {
 	private int sum, checksum;

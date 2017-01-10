@@ -1,4 +1,4 @@
-package isbnCheck;
+package view.isbnCheck;
 
 public class Isbn {
 	private IsbnStrategy strategy;

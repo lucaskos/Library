@@ -23,7 +23,7 @@ import listeners.MenuListener;
 
 public class MenuBar extends JMenuBar {
 	private JMenu fileMenu, optionMenu, aboutMenu;
-	private JMenuItem newItem, openItem, saveItem, exitItem, aboutItem, prefsItem;
+	private JMenuItem newItem, openItem, saveItem, exitItem, aboutItem, prefsItem, exportItem;
 	JFileChooser fileChooser;
 	private MenuListener listener;
 	
@@ -43,6 +43,12 @@ public class MenuBar extends JMenuBar {
 		openItem.setMnemonic(KeyEvent.VK_O);
 		fileMenu.add(openItem);
 
+		fileMenu.addSeparator();
+		
+		exportItem = new JMenuItem("Export");
+		exportItem.setMnemonic(KeyEvent.VK_E);
+		fileMenu.add(exportItem);
+		
 		fileMenu.addSeparator();
 
 		exitItem = new JMenuItem("Exit");

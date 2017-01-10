@@ -186,6 +186,11 @@ public class MainFrame extends JFrame {
 						controller.saveToFile(fileChooser.getSelectedFile());
 					}
 					break;
+				case "Export":
+					if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+						controller.saveToFile(fileChooser.getSelectedFile());
+					}
+					break;
 				case "Exit":
 					System.exit(1);
 					break;

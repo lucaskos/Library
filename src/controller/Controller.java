@@ -97,4 +97,12 @@ public class Controller {
 		return db.deleteCellsFromDb(ids);
 	}
 
+	public void exportFile(File selectedFile) {
+		try {
+			db.exportFile(selectedFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
