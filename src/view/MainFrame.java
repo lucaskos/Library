@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
@@ -188,7 +189,7 @@ public class MainFrame extends JFrame {
 					break;
 				case "Export":
 					if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-						controller.saveToFile(fileChooser.getSelectedFile());
+						controller.exportFile(fileChooser.getSelectedFile());
 					}
 					break;
 				case "Exit":

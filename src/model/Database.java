@@ -15,8 +15,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Database {
 	List<Book> bookList = new LinkedList<Book>();
@@ -308,16 +313,13 @@ public class Database {
 		return false;
 
 	}
-
+	//Test for JSON file export
+	//Later it will implement Strategy Design Pattern for XML and possibly other file formats depending of user choice.
 	public void exportFile(File file) throws IOException {
-		FileOutputStream fos = new FileOutputStream(file);
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-		oos.writeObject(bookList);
-
-		oos.flush();
-		oos.close();
-		
+		String json = null;
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.writeValue(file, bookList);
 	}
 
 }

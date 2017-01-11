@@ -72,7 +72,7 @@ public class MenuBar extends JMenuBar {
 		//fileChooser = new JFileChooser();
 
 		// listeners
-		addActionListeners(newItem, saveItem, openItem, exitItem, aboutItem, prefsItem);
+		addActionListeners(newItem, saveItem, openItem, exitItem, aboutItem, prefsItem, exportItem);
 	}
 
 	public void setMenuListener(MenuListener listener) {
