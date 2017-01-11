@@ -91,12 +91,11 @@ public class MainFrame extends JFrame {
 				connect();
 				try {
 					if(removedRows!=null) {
-						int temp = 0;
+						int temp;
 						//controller.deleteRowsFromDb(removedRows);
 						for(String rows : removedRows) {
 							temp = Integer.parseInt(rows);
-							boolean a = controller.removeBookFromDatabase(temp);
-							if(a=true) {
+							if(controller.removeBookFromDatabase(temp) == true) {
 								System.out.println("failed to delete records");
 							}
 						}
