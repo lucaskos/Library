@@ -14,8 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import controller.Controller;
+import listeners.BookListener;
+import listeners.BookTableListener;
 import listeners.MenuListener;
+import listeners.PrefsListener;
+import listeners.ToolBarListener;
 
 public class MainFrame extends JFrame {
 
@@ -90,16 +97,16 @@ public class MainFrame extends JFrame {
 			public void updateHandler() {
 				connect();
 				try {
-					if(removedRows!=null) {
+					if (removedRows != null) {
 						int temp;
-						//controller.deleteRowsFromDb(removedRows);
-						for(String rows : removedRows) {
+						// controller.deleteRowsFromDb(removedRows);
+						for (String rows : removedRows) {
 							temp = Integer.parseInt(rows);
-							if(controller.removeBookFromDatabase(temp) == true) {
+							if (controller.removeBookFromDatabase(temp) == true) {
 								System.out.println("failed to delete records");
 							}
 						}
-						
+
 					}
 					controller.save();
 				} catch (SQLException e) {
@@ -168,27 +175,59 @@ public class MainFrame extends JFrame {
 		});
 
 		fileChooser = new JFileChooser();
+		fileChooser.setAcceptAllFileFilterUsed(false); // removes the accept-all
+														// (.*)
+
 		menuBar.setMenuListener(new MenuListener() {
 			public void takeJemenu(JMenuItem item) {
+				FileFilter defaultFilter = new FileFilter() {
+					public String getDescription() {
+						return ".txt files";
+					}
+
+					public boolean accept(File file) {
+						if (file.isDirectory()) {
+							return true;
+						} else {
+							String filename = file.getName().toLowerCase();
+							return filename.endsWith(".txt") || filename.endsWith(".TXT");
+						}
+					}
+				};
 				String command = item.getActionCommand();
 				switch (command) {
 				case "New":
 					controller.newFile();
 					break;
 				case "Open":
+					fileChooser.setFileFilter(defaultFilter);
 					if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
 						controller.openFile(fileChooser.getSelectedFile());
 					}
 
 					break;
 				case "Save":
+					fileChooser.setFileFilter(defaultFilter);
+
 					if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-						controller.saveToFile(fileChooser.getSelectedFile());
+						File file = fileChooser.getSelectedFile();
+						controller.saveToFile(new File(file + ".txt"));
 					}
 					break;
 				case "Export":
+					fileChooser.resetChoosableFileFilters();
+					fileChooser.setFileFilter(new FileFilter() {
+						public String getDescription() {
+							return ".JSON";
+						}
+
+						public boolean accept(File f) {
+							return f.getName().endsWith(".json") || f.getName().endsWith(".JSON");
+						}
+					});
+					// fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-						controller.exportFile(fileChooser.getSelectedFile());
+						controller.exportFile(new File(fileChooser.getSelectedFile() + ".json"));
 					}
 					break;
 				case "Exit":

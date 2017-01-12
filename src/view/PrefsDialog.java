@@ -15,6 +15,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import listeners.PrefsListener;
+
 public class PrefsDialog extends JDialog {
 	private JLabel userLabel, passLabel, portLabel;
 	private JSpinner spinner;

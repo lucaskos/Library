@@ -1,4 +1,4 @@
-package view;
+package listeners;
 
 public interface ToolBarListener {
 	public void updateHandler();

@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.border.EtchedBorder;
 
+import listeners.ToolBarListener;
+
 public class ToolBar extends JToolBar {
 	private JButton updateBtn, refreshBtn;
 	private ToolBarListener listener;

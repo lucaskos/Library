@@ -28,6 +28,7 @@ import javax.swing.text.DocumentFilter;
 import javax.swing.text.PlainDocument;
 
 import controller.Controller;
+import listeners.BookTableListener;
 
 public class BookListPanel extends JPanel {
 	private BookTableListener bookTableListener;

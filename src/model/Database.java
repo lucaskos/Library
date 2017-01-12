@@ -214,7 +214,7 @@ public class Database {
 	}
 
 	public void refresh() {
-		
+
 	}
 
 	/*
@@ -313,10 +313,12 @@ public class Database {
 		return false;
 
 	}
-	//Test for JSON file export
-	//Later it will implement Strategy Design Pattern for XML and possibly other file formats depending of user choice.
+
+	/*
+	 * Test for JSON file export Later it will implement Strategy Design Pattern
+	 * for XML and possibly other file formats depending of user choice.
+	 */
 	public void exportFile(File file) throws IOException {
-		String json = null;
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		mapper.writeValue(file, bookList);
