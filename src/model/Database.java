@@ -77,6 +77,7 @@ public class Database {
 			bookList.clear();
 			bookList.addAll(books);
 		} catch (ClassNotFoundException e) {
+			System.out.println("Error");
 			e.printStackTrace();
 		}
 		ois.close();

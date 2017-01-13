@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -41,6 +42,7 @@ public class MainFrame extends JFrame {
 	int row, column;
 	private Preferences myPrefs;
 	private ArrayList<String> removedRows;
+	private JSplitPane splitPane;
 
 	public MainFrame() {
 		setTitle("Book Catalogue");
@@ -59,12 +61,27 @@ public class MainFrame extends JFrame {
 			}
 
 		});
+		FileFilter defaultFilter = new FileFilter() {
+			public String getDescription() {
+				return ".txt files";
+			}
+
+			public boolean accept(File file) {
+				if (file.isDirectory()) {
+					return true;
+				} else {
+					String filename = file.getName().toLowerCase();
+					return filename.endsWith(".txt") || filename.endsWith(".TXT");
+				}
+			}
+		};
 		controller = new Controller();
 		prefsDialog = new PrefsDialog();
 		toolBar = new ToolBar();
 		bookListPanel = new BookListPanel(controller);
 		descriptionPanel = new BookDescriptionPanel();
 		menuBar = new MenuBar();
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, descriptionPanel, bookListPanel);
 
 		/*
 		 * Setting preferences for database (default in mysql). That includes
@@ -82,8 +99,7 @@ public class MainFrame extends JFrame {
 		tempPanel.add(menuBar, BorderLayout.NORTH);
 		tempPanel.add(toolBar, BorderLayout.CENTER);
 		add(tempPanel, BorderLayout.NORTH);
-		add(bookListPanel, BorderLayout.WEST);
-		add(descriptionPanel, BorderLayout.CENTER);
+		add(splitPane, BorderLayout.CENTER);
 		add(new JLabel(booksNumber), BorderLayout.SOUTH);
 		/*
 		 * Setting up toolbarlistener and updating functionalaties of buttons
@@ -140,6 +156,17 @@ public class MainFrame extends JFrame {
 				}
 				bookListPanel.refresh();
 			}
+
+			public void saveHandler() {
+				save(defaultFilter);
+			}
+
+			public void getAction(String action) {
+			action.toLowerCase();
+				if(action.equalsIgnoreCase(IconsNames.Save.toString())) {
+					System.out.println("saving");
+				}
+			}
 		});
 		/*
 		 * Removing row from a table causes a removal of record from List<Book>.
@@ -158,8 +185,8 @@ public class MainFrame extends JFrame {
 			}
 		});
 		/*
-		 * Getting values from right side of the program. Creating new Book
-		 * object and adding it to the table.
+		 * Getting values from bookListPanel (form). Creating new Book object
+		 * and adding it to the table.
 		 */
 		descriptionPanel.setBookActionListener(new BookListener() {
 			public void formEventHandler(String title, String author, long isbn, String genre) {
@@ -176,24 +203,9 @@ public class MainFrame extends JFrame {
 
 		fileChooser = new JFileChooser();
 		fileChooser.setAcceptAllFileFilterUsed(false); // removes the accept-all
-														// (.*)
-
 		menuBar.setMenuListener(new MenuListener() {
 			public void takeJemenu(JMenuItem item) {
-				FileFilter defaultFilter = new FileFilter() {
-					public String getDescription() {
-						return ".txt files";
-					}
 
-					public boolean accept(File file) {
-						if (file.isDirectory()) {
-							return true;
-						} else {
-							String filename = file.getName().toLowerCase();
-							return filename.endsWith(".txt") || filename.endsWith(".TXT");
-						}
-					}
-				};
 				String command = item.getActionCommand();
 				switch (command) {
 				case "New":
@@ -207,12 +219,7 @@ public class MainFrame extends JFrame {
 
 					break;
 				case "Save":
-					fileChooser.setFileFilter(defaultFilter);
-
-					if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-						File file = fileChooser.getSelectedFile();
-						controller.saveToFile(new File(file + ".txt"));
-					}
+					save(defaultFilter);
 					break;
 				case "Export":
 					fileChooser.resetChoosableFileFilters();
@@ -222,7 +229,11 @@ public class MainFrame extends JFrame {
 						}
 
 						public boolean accept(File f) {
-							return f.getName().endsWith(".json") || f.getName().endsWith(".JSON");
+							if (f.isDirectory()) {
+								return true;
+							} else {
+								return f.getName().endsWith(".json") || f.getName().endsWith(".JSON");
+							}
 						}
 					});
 					// fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -245,6 +256,7 @@ public class MainFrame extends JFrame {
 				bookListPanel.refresh();
 
 			}
+
 		});
 
 		setVisible(true);
@@ -279,4 +291,10 @@ public class MainFrame extends JFrame {
 
 	}
 
+	private void save(FileFilter filter) {
+		fileChooser.setFileFilter(filter);
+		if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+			controller.saveToFile(new File(fileChooser.getSelectedFile() + ".txt"));
+		}
+	}
 }
