@@ -12,11 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 public class Database {
 	List<Book> bookList = new LinkedList<Book>();
@@ -68,6 +66,7 @@ public class Database {
 		FileInputStream fis = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		try {
+			@SuppressWarnings("unchecked")
 			List<Book> books = (List<Book>) ois.readObject();
 			bookList.clear();
 			bookList.addAll(books);

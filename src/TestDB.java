@@ -10,7 +10,6 @@ public class TestDB {
 		try {
 			db.connect();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
