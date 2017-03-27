@@ -1,9 +1,5 @@
 package model;
 
-import java.util.List;
-
-import view.MainFrame;
-
 public class TestDB {
 	
 	

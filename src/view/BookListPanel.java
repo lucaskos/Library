@@ -42,7 +42,7 @@ public class BookListPanel extends JPanel {
 		JMenuItem editItem = new JMenuItem("Edit");
 		popup.add(removeItem);
 		popup.add(editItem);
-		
+
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Book list"));
 		JTable table = new JTable();
@@ -143,7 +143,7 @@ public class BookListPanel extends JPanel {
 					int showConfirmDialog = JOptionPane.showConfirmDialog(null, inputs, "ISBN number",
 							JOptionPane.OK_CANCEL_OPTION);
 					String value = isbnField.getText();
-					
+
 					/*
 					 * Implement checking whether the ISBN value is already in
 					 * table. If so prompt user to enter correct value with
@@ -152,7 +152,7 @@ public class BookListPanel extends JPanel {
 					if (showConfirmDialog == 0) {
 						if (!value.isEmpty()) {
 							tableModel.setValueAt(Integer.parseInt(value), row, column);
-						} 
+						}
 					}
 					/*
 					 * Taking each column except the isbn columns

@@ -18,10 +18,6 @@ import controller.Controller;
 import listeners.MenuListener;
 
 public class MainFrame extends JFrame {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private BookListPanel bookListPanel;
 	private BookDescriptionPanel descriptionPanel;
@@ -68,10 +64,9 @@ public class MainFrame extends JFrame {
 		tempPanel.setLayout(new BorderLayout());
 		tempPanel.add(menuBar, BorderLayout.PAGE_START);
 		tempPanel.add(toolBar, BorderLayout.AFTER_LAST_LINE);
-		add(toolBar, BorderLayout.NORTH);
+		add(tempPanel, BorderLayout.NORTH);
 		add(bookListPanel, BorderLayout.WEST);
 		add(descriptionPanel, BorderLayout.CENTER);
-		add(new JLabel(booksNumber), BorderLayout.SOUTH);
 		/*
 		 * Setting up toolbarlistener and updating functionalaties of buttons
 		 * inside the ToolBarPanel. updateHandler() connect to database, update

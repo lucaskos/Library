@@ -23,9 +23,7 @@ public class ToolBar extends JToolBar {
 		 * Check BoxLayout and how it affects dragging.
 		 */
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		Point location = this.getLocation();
-		System.out.println(location);
-		
+		this.setFloatable(false);
 		updateBtn = new JButton("Update");
 		refreshBtn = new JButton("Refresh");
 		updateBtn.addActionListener(new ActionListener(){

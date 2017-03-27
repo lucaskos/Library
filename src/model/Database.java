@@ -51,7 +51,11 @@ public class Database {
 		return bookList.get(index);
 	}
 
-	// saving files
+	/*
+	 * @param File file
+	 * @return void
+	 * save the content to the file
+	 */
 	public void saveToFile(File file) throws IOException {
 		FileOutputStream fos = new FileOutputStream(file);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -61,7 +65,11 @@ public class Database {
 		oos.flush();
 		oos.close();
 	}
-
+	/*
+	 * @param File file
+	 * @return void
+	 * open the file and write the content of the file as books 
+	 */
 	public void openFile(File file) throws IOException {
 		FileInputStream fis = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fis);
@@ -110,13 +118,21 @@ public class Database {
 			}
 		}
 	}
-
 	
+	/*
+	 * store the information about removed book
+	 * TODO implement the back/forward option
+	 */
 	public void remove() throws SQLException {
 		String removeSql = "DELETE from book where id=?";
 		
 		PreparedStatement  removeStatement = con.prepareStatement(removeSql);
 	}
+	
+	/*
+	 * @returns void
+	 * save the content of the table to the database - mysql
+	 */
 	public void save() throws SQLException {
 
 		String checkSql = "SELECT count(*) as count from books where id=?";
@@ -178,13 +194,15 @@ public class Database {
 		insertStatement.close();
 		checkStmt.close();
 	}
-
+	/*
+	 * @returns void
+	 * load the books from the database - mysql
+	 */
 	public void load() throws SQLException {
 		bookList.clear();
 		try {
 			connect();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String sql = "select id, title, author, isbn, genre from books order by id";

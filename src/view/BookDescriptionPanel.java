@@ -100,8 +100,9 @@ public class BookDescriptionPanel extends JPanel {
 		addBtn = new JButton("Add");
 		clearBtn = new JButton("Clear");
 
-		// Setting up genres from enum WITHOUT !ALL!
-		// for JComboBox
+		/*
+		 * Setting the values to comboBox from Genres enum without first Option `ALL`
+		 */
 		ArrayList<String> temp = new ArrayList<>();
 		for (Genres value : Genres.values()) {
 			temp.add(value.toString().toLowerCase());
